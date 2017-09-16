@@ -5,8 +5,10 @@ session_start();
 //$page = $_SERVER['HTTP_REFERER'];
 require_once('func/session_verification.php');
 require_once('func/message.php');
-require_once('func/variables.php');
 
+$photo = $_FILES['photo']['name'];
+$photo_dir = 'photos/';
+$script_name = $_SERVER['SCRIPT_NAME'];
 
 ?>
     <!DOCTYPE html>

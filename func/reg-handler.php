@@ -2,8 +2,6 @@
 
 require_once('connect-pdo.php');
 require_once('message.php');
-//require_once('variables.php');
-
 
 $login = $_POST['login'];
 $password1 = $_POST['password1'];
