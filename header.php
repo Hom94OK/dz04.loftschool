@@ -3,9 +3,9 @@ session_start();
 //setcookie('PHPSESSID', '', time() - 3600);
 //setcookie('password', '', time() - 3600);
 //$page = $_SERVER['HTTP_REFERER'];
+require_once('func/session_verification.php');
 require_once('func/message.php');
 require_once('func/variables.php');
-require_once('func/session_verification.php');
 
 
 ?>
@@ -62,21 +62,21 @@ require_once('func/session_verification.php');
                         </a>
                         <ul class="dropdown-menu">
                             <li class="exit">
-                                <a href="exit.php">
+                                <a href="http://home-work04/exit.php">
                                     exit
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="list.php">Список пользователей</a>
+                        <a href="http://home-work04/list.php">Список пользователей</a>
                     </li>
                     <li>
-                        <a href="filelist.php">Список файлов</a>
+                        <a href="http://home-work04/filelist.php">Список файлов</a>
                     </li>
 				<?php else : ?>
-                    <li><a href="index.php">Авторизация</a></li>
-                    <li><a href="reg.php">Регистрация</a></li>?>
+                    <li><a href="http://home-work04/index.php">Авторизация</a></li>
+                    <li><a href="http://home-work04/reg.php">Регистрация</a></li>?>
 				<?php endif ?>
             </ul>
         </div><!--/.nav-collapse -->

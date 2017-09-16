@@ -2,24 +2,24 @@
 
 require_once('connect-pdo.php');
 require_once('message.php');
-require_once('variables.php');
+//require_once('variables.php');
 
 
-//$login = $_POST['login'];
-//$password = $_POST['password'];
-//$password1 = $_POST['password1'];
-//$password2 = $_POST['password2'];
-//$name = $_POST['name'];
-//$age = $_POST['age'];
-//$description = $_POST['description'];
+$login = $_POST['login'];
+$password1 = $_POST['password1'];
+$password2 = $_POST['password2'];
+$name = $_POST['name'];
+$age = $_POST['age'];
+$description = $_POST['description'];
 
 $file = $_FILES['photo'];
 //$photo = $file['name'];
-require_once ("vendor/autoload.php"); //Подключаем composer
+require_once("vendor/autoload.php"); //Подключаем composer
 use Intervention\Image\ImageManagerStatic as Image;
 
-if (!empty($login) && !empty($password1) && !empty($password2) && !empty($name) && !empty($age) && !empty($description) && !empty($file)) {
-// Проверка пользователя
+if (!empty($login) && !empty($password1) && !empty($password2) &&
+	!empty($name) && !empty($age) && !empty($description) && !empty($file)) {
+	// Проверка пользователя
 	$login_check = $pdo->prepare("SELECT * FROM users WHERE login = :login");
 	$login_check->execute([
 		':login' => $login
@@ -52,27 +52,38 @@ if (!empty($login) && !empty($password1) && !empty($password2) && !empty($name) 
 		default:
 			echo 'Все ок';
 	}
-	/////////  Загрузка фото
-	if (preg_match('/jpg/', $file['name']) or preg_match('/png/', $file['name']) or preg_match('/gif/', $file['name'])) { //Проверяем имя файла. У нас PNG - файл проходит
-		if (preg_match('/jpeg/', $file['type']) or preg_match('/png/', $file['type']) or preg_match('/gif/', $file['type'])) {
-			//Проверяем mime type - у нас GIF. Все Ок
-//			echo 'Файл имеет верный mime-type. "Доверяем" и загружаем его' . PHP_EOL;
-			$img = Image::make($file['tmp_name']); //Открываем
-			$img->resize(100, 100); //Изменяем размер
-			$img->save('../photos/' . $login. '.jpg'); //Сохраняем с новым именем
-		} else {
-			echo "Выводим результат проверки: file-type: " . mime_content_type('../photos/' . $login. '.jpg') . PHP_EOL;
-			echo 'Название ок mime type нет';
-			die();
-		}
-	} else {
-		die("Ошибка итд");
-	}
-	/////////////////////////////////
 } else {
 	message('Вы не заполнили какое-то поле');
 	die();
 }
+
+function uploadPhotoAndResize($photoFiles, $nameFile, $width = 100, $height = 100)
+{
+/////////  Загрузка фото
+	if (preg_match('/jpg/', $photoFiles['name']) or
+		preg_match('/png/', $photoFiles['name']) or
+		preg_match('/gif/', $photoFiles['name'])) { //Проверяем имя файла. У нас PNG - файл проходит
+		if (preg_match('/jpeg/', $photoFiles['type']) or
+			preg_match('/png/', $photoFiles['type']) or
+			preg_match('/gif/', $photoFiles['type'])) {
+			//Проверяем mime type - у нас GIF. Все Ок
+//			echo 'Файл имеет верный mime-type. "Доверяем" и загружаем его' . PHP_EOL;
+			$img = Image::make($photoFiles['tmp_name']); //Открываем
+			$img->resize($width, $height); //Изменяем размер
+			$img->save('../photos/' . $nameFile . '.jpg'); //Сохраняем с новым именем
+		} else {
+			message('Название ок mime type нет');
+			die();
+		}
+	} else {
+		message("Ошибка итд");
+	}
+/////////////////////////////////
+}
+
+//validationFormRegister();
+
+uploadPhotoAndResize($file, $login);
 
 $name = strip_tags($name);
 $description = strip_tags($description);
@@ -103,20 +114,3 @@ echo '<b>ID пользователя: </b>' . $user_id . '</br>';
 echo '<b>Логин: </b>' . $login . '</br>';
 echo '<b>Пароль: </b>' . $password . '</br>';
 
-
-//$file = $_FILES['photo'];
-//
-//$dir = '../photos';
-//
-//if (!file_exists($dir)) {
-//	mkdir($dir, 0777);
-//}
-//$file_name = $dir . '/' . $file['name'];
-//
-//if (move_uploaded_file($file['tmp_name'], $file_name)) {
-//	echo "<p>Файл успешно загружен</p>";
-//	echo '<p>Путь до файла: ' . $file_name . '</p>';
-//	echo '<p><a href="' . $file_name . '" target="_blank">открыть файл</a></p>';
-//} else {
-//	echo "Возникла ошибка при загрузке файла";
-//}

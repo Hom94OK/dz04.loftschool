@@ -6,7 +6,7 @@ $("#login-submit").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "func/form-handler.php",
+        url: "http://home-work04/func/form-handler.php",
         data: $("#form-login").serialize() // serializes the form's elements.
         // success:
     }).done(function (data) {
@@ -46,7 +46,7 @@ $("#reg-submit").on("click", function (e) {
 
     $.ajax({
         type: 'POST',
-        url: 'func/reg-handler.php',
+        url: 'http://home-work04/func/reg-handler.php',
         processData: false,
         contentType: false,
         data: fd,
